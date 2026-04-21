@@ -113,4 +113,4 @@ Los datos del XML son consistentes con los registros de la base de datos del pro
 | `esquema.xsd` | Esquema de validación con tipos, ENUMs y restricciones |
 | `datos_incorrecto.xml` | XML con 6 errores intencionales para demostrar el XSD |
 | `evidencia_validacion.txt` | Log completo de ambas validaciones |
-| `README_xml.md` | Este archivo |
+| `README.md` | Este archivo |
