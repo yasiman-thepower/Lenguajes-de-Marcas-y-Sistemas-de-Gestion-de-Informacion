@@ -1,0 +1,69 @@
+============================================================
+EVIDENCIA DE VALIDACIÓN XML — Módulo 0373
+Proyecto Intermodular ASIR 1º — Agencia Espanito
+Estudiante: Yassin Mansouri
+Herramienta: Python 3 + librería lxml (XMLSchema)
+Fecha: 2025-04-20
+============================================================
+
+=== VALIDACIÓN 1: datos.xml (documento correcto) ===
+
+Comando ejecutado:
+  python3 -c "
+  from lxml import etree
+  schema = etree.XMLSchema(etree.parse('esquema.xsd'))
+  doc = etree.parse('datos.xml')
+  print('VALIDO' if schema.validate(doc) else 'NO VALIDO')
+  "
+
+RESULTADO: VALIDO ✓
+Errores detectados: ninguno
+El documento datos.xml cumple completamente con el esquema esquema.xsd.
+
+------------------------------------------------------------
+
+=== VALIDACIÓN 2: datos_incorrecto.xml (documento con errores) ===
+
+RESULTADO: NO VALIDO ✗
+El XSD detecta correctamente los 6 errores introducidos:
+
+  Línea  34: Element 'solicitud', attribute 'id':
+             [facet 'pattern'] The value 'SL001' is not accepted
+             by the pattern 'SOL-[0-9]{3}'.
+             → Error 6: ID de solicitud con formato incorrecto.
+
+  Línea  44: Element 'nota_media':
+             [facet 'maxInclusive'] The value '25.00' is greater
+             than the maximum value allowed ('20.00').
+             → Error 1: Nota media fuera del rango válido (0-20).
+
+  Línea  49: Element 'idioma', attribute 'nivel':
+             [facet 'enumeration'] The value 'D1' is not an element
+             of the set {'nativo','A1','A2','B1','B2','C1','C2'}.
+             → Error 2: Nivel de idioma no existente en el MCER.
+
+  Línea  56: Element 'nivel':
+             [facet 'enumeration'] The value 'Certificado' is not
+             an element of the set {'Bachillerato','Licenciatura',
+             'Maestria','Doctorado','Intercambio'}.
+             → Error 3: Nivel de programa académico no válido.
+
+  Línea  66: Element 'pais':
+             [facet 'enumeration'] The value 'Japon' is not an
+             element of the set {'España','Alemania','Francia',
+             'Paises Bajos','Reino Unido','Italia','Belgica','Suecia'}.
+             → Error 4: País fuera de la cobertura europea.
+
+  Línea  80: Element 'estado':
+             [facet 'enumeration'] The value 'Tramitando' is not
+             an element of the set {'No_iniciado','Documentacion',
+             'Cita_pendiente','En_revision','Aprobada','Denegada',
+             'Cancelada'}.
+             → Error 5: Estado de visa no reconocido.
+
+============================================================
+CONCLUSIÓN: El esquema XSD valida correctamente tanto la
+aceptación de documentos válidos como el rechazo de datos
+incorrectos, demostrando el control de tipos, enumeraciones,
+patrones y restricciones de rango implementados.
+============================================================

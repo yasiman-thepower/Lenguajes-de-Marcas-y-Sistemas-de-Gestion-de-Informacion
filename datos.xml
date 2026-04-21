@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  PROYECTO INTERMODULAR - ASIR 1º
+  Módulo: Lenguajes de Marcas y Sistemas de Gestión (0373)
+  Empresa: Agencia Espanito
+  Estudiante: Yassin Mansouri
+  Archivo: datos.xml
+  Descripción: Exportación de solicitudes de admisión generada
+               desde espanito_db para envío a universidades.
+               Integración: exportación directa desde la base
+               de datos del proyecto (tabla solicitudes + 
+               estudiantes + programas + tramites_visa).
+  ============================================================
+-->
+<espanito
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="esquema.xsd">
+
+  <agencia>
+    <nombre>Espanito - Servicios Educativos y Migratorios</nombre>
+    <pais_sede>España</pais_sede>
+    <email_contacto>admisiones@espanito.com</email_contacto>
+    <fecha_exportacion>2025-04-20</fecha_exportacion>
+    <version_exportacion>1.0</version_exportacion>
+  </agencia>
+
+  <solicitudes total="5">
+
+    <!-- ====================================================
+         SOLICITUD 1 — Ali Mohammadi → TUM Bachelor Informatik
+         Estado: Aceptada | Visa: Aprobada
+    ===================================================== -->
+    <solicitud id="SOL-001" prioridad="1">
+      <estudiante>
+        <nombre>Ali</nombre>
+        <apellido>Mohammadi</apellido>
+        <email>ali.mohammadi@email.com</email>
+        <nacionalidad>Irani</nacionalidad>
+        <pasaporte numero="IR100001" expira="2028-05-01"/>
+        <nivel_educativo>Bachillerato</nivel_educativo>
+        <nota_media>17.50</nota_media>
+        <idiomas>
+          <idioma nivel="nativo">Persa</idioma>
+          <idioma nivel="B2">Ingles</idioma>
+        </idiomas>
+      </estudiante>
+
+      <programa>
+        <nombre_programa>Bachelor Informatik</nombre_programa>
+        <nivel>Licenciatura</nivel>
+        <duracion_meses>48</duracion_meses>
+        <coste_anual moneda="EUR">500.00</coste_anual>
+        <idioma_imparticion>Aleman</idioma_imparticion>
+        <fecha_inicio>2025-10-01</fecha_inicio>
+      </programa>
+
+      <universidad>
+        <nombre>Technische Universitat Munchen</nombre>
+        <pais>Alemania</pais>
+        <ciudad>Munich</ciudad>
+        <ranking>TOP 50</ranking>
+      </universidad>
+
+      <estado_solicitud>Aceptada</estado_solicitud>
+      <fecha_solicitud>2025-01-10</fecha_solicitud>
+      <fecha_respuesta>2025-02-20</fecha_respuesta>
+
+      <tramite_visa>
+        <tipo>Estudio_larga_duracion</tipo>
+        <consulado>Embajada Alemana Teheran</consulado>
+        <fecha_inicio>2025-02-25</fecha_inicio>
+        <fecha_cita>2025-03-10</fecha_cita>
+        <fecha_fin_prevista>2025-04-15</fecha_fin_prevista>
+        <estado>Aprobada</estado>
+        <numero_expediente>DE-2025-ALI-001</numero_expediente>
+      </tramite_visa>
+
+      <asesor>
+        <nombre>Sara</nombre>
+        <apellido>Garcia</apellido>
+        <email>sara.garcia@espanito.com</email>
+      </asesor>
+    </solicitud>
+
+    <!-- ====================================================
+         SOLICITUD 2 — Reza Ahmadi → TUM Master Software Engineering
+         Estado: Aceptada | Visa: En revisión
+    ===================================================== -->
+    <solicitud id="SOL-002" prioridad="1">
+      <estudiante>
+        <nombre>Reza</nombre>
+        <apellido>Ahmadi</apellido>
+        <email>reza.ahmadi@email.com</email>
+        <nacionalidad>Irani</nacionalidad>
+        <pasaporte numero="IR100002" expira="2027-11-07"/>
+        <nivel_educativo>Bachillerato</nivel_educativo>
+        <nota_media>18.20</nota_media>
+        <idiomas>
+          <idioma nivel="nativo">Persa</idioma>
+          <idioma nivel="C1">Ingles</idioma>
+          <idioma nivel="B1">Aleman</idioma>
+        </idiomas>
+      </estudiante>
+
+      <programa>
+        <nombre_programa>Master Software Engineering</nombre_programa>
+        <nivel>Maestria</nivel>
+        <duracion_meses>24</duracion_meses>
+        <coste_anual moneda="EUR">1000.00</coste_anual>
+        <idioma_imparticion>Ingles</idioma_imparticion>
+        <fecha_inicio>2025-10-01</fecha_inicio>
+      </programa>
+
+      <universidad>
+        <nombre>Technische Universitat Munchen</nombre>
+        <pais>Alemania</pais>
+        <ciudad>Munich</ciudad>
+        <ranking>TOP 50</ranking>
+      </universidad>
+
+      <estado_solicitud>Aceptada</estado_solicitud>
+      <fecha_solicitud>2025-01-15</fecha_solicitud>
+      <fecha_respuesta>2025-02-25</fecha_respuesta>
+
+      <tramite_visa>
+        <tipo>Estudio_larga_duracion</tipo>
+        <consulado>Embajada Alemana Teheran</consulado>
+        <fecha_inicio>2025-03-01</fecha_inicio>
+        <fecha_cita>2025-03-15</fecha_cita>
+        <fecha_fin_prevista>2025-04-20</fecha_fin_prevista>
+        <estado>En_revision</estado>
+        <numero_expediente>DE-2025-REZ-002</numero_expediente>
+      </tramite_visa>
+
+      <asesor>
+        <nombre>Sara</nombre>
+        <apellido>Garcia</apellido>
+        <email>sara.garcia@espanito.com</email>
+      </asesor>
+    </solicitud>
+
+    <!-- ====================================================
+         SOLICITUD 3 — Shirin Moradi → Paris-Saclay Master Informatique
+         Estado: Aceptada | Visa: Cita pendiente
+    ===================================================== -->
+    <solicitud id="SOL-003" prioridad="1">
+      <estudiante>
+        <nombre>Shirin</nombre>
+        <apellido>Moradi</apellido>
+        <email>shirin.moradi@email.com</email>
+        <nacionalidad>Irani</nacionalidad>
+        <pasaporte numero="IR100005" expira="2027-06-13"/>
+        <nivel_educativo>Licenciatura</nivel_educativo>
+        <nota_media>19.00</nota_media>
+        <idiomas>
+          <idioma nivel="nativo">Persa</idioma>
+          <idioma nivel="C1">Ingles</idioma>
+          <idioma nivel="B2">Frances</idioma>
+        </idiomas>
+      </estudiante>
+
+      <programa>
+        <nombre_programa>Master Informatique</nombre_programa>
+        <nivel>Maestria</nivel>
+        <duracion_meses>24</duracion_meses>
+        <coste_anual moneda="EUR">3000.00</coste_anual>
+        <idioma_imparticion>Frances</idioma_imparticion>
+        <fecha_inicio>2025-09-10</fecha_inicio>
+      </programa>
+
+      <universidad>
+        <nombre>Universite Paris-Saclay</nombre>
+        <pais>Francia</pais>
+        <ciudad>Paris</ciudad>
+        <ranking>TOP 20</ranking>
+      </universidad>
+
+      <estado_solicitud>Aceptada</estado_solicitud>
+      <fecha_solicitud>2025-01-20</fecha_solicitud>
+      <fecha_respuesta>2025-02-28</fecha_respuesta>
+
+      <tramite_visa>
+        <tipo>Estudio_larga_duracion</tipo>
+        <consulado>Embajada Francesa Teheran</consulado>
+        <fecha_inicio>2025-03-12</fecha_inicio>
+        <fecha_cita>2025-03-20</fecha_cita>
+        <fecha_fin_prevista>2025-04-25</fecha_fin_prevista>
+        <estado>Cita_pendiente</estado>
+        <numero_expediente>FR-2025-SHI-003</numero_expediente>
+      </tramite_visa>
+
+      <asesor>
+        <nombre>Laura</nombre>
+        <apellido>Martinez</apellido>
+        <email>laura.martinez@espanito.com</email>
+      </asesor>
+    </solicitud>
+
+    <!-- ====================================================
+         SOLICITUD 4 — Arash Sadeghi → TUM Master Data Engineering
+         Estado: Aceptada | Visa: En revisión
+    ===================================================== -->
+    <solicitud id="SOL-004" prioridad="1">
+      <estudiante>
+        <nombre>Arash</nombre>
+        <apellido>Sadeghi</apellido>
+        <email>arash.sadeghi@email.com</email>
+        <nacionalidad>Irani</nacionalidad>
+        <pasaporte numero="IR100009" expira="2028-02-17"/>
+        <nivel_educativo>Bachillerato</nivel_educativo>
+        <nota_media>18.70</nota_media>
+        <idiomas>
+          <idioma nivel="nativo">Persa</idioma>
+          <idioma nivel="C1">Ingles</idioma>
+        </idiomas>
+      </estudiante>
+
+      <programa>
+        <nombre_programa>Master Data Engineering</nombre_programa>
+        <nivel>Maestria</nivel>
+        <duracion_meses>24</duracion_meses>
+        <coste_anual moneda="EUR">1000.00</coste_anual>
+        <idioma_imparticion>Ingles</idioma_imparticion>
+        <fecha_inicio>2025-10-01</fecha_inicio>
+      </programa>
+
+      <universidad>
+        <nombre>Technische Universitat Munchen</nombre>
+        <pais>Alemania</pais>
+        <ciudad>Munich</ciudad>
+        <ranking>TOP 50</ranking>
+      </universidad>
+
+      <estado_solicitud>Aceptada</estado_solicitud>
+      <fecha_solicitud>2025-01-25</fecha_solicitud>
+      <fecha_respuesta>2025-03-01</fecha_respuesta>
+
+      <tramite_visa>
+        <tipo>Estudio_larga_duracion</tipo>
+        <consulado>Embajada Alemana Teheran</consulado>
+        <fecha_inicio>2025-03-18</fecha_inicio>
+        <fecha_cita>2025-03-25</fecha_cita>
+        <fecha_fin_prevista>2025-04-30</fecha_fin_prevista>
+        <estado>En_revision</estado>
+        <numero_expediente>DE-2025-ARA-004</numero_expediente>
+      </tramite_visa>
+
+      <asesor>
+        <nombre>Sara</nombre>
+        <apellido>Garcia</apellido>
+        <email>sara.garcia@espanito.com</email>
+      </asesor>
+    </solicitud>
+
+    <!-- ====================================================
+         SOLICITUD 5 — Fatima Hosseini → UCL MSc Computer Science
+         Estado: En proceso | Visa: En documentación
+    ===================================================== -->
+    <solicitud id="SOL-005" prioridad="1">
+      <estudiante>
+        <nombre>Fatima</nombre>
+        <apellido>Hosseini</apellido>
+        <email>fatima.hosseini@email.com</email>
+        <nacionalidad>Irani</nacionalidad>
+        <pasaporte numero="IR100003" expira="2029-03-21"/>
+        <nivel_educativo>Licenciatura</nivel_educativo>
+        <nota_media>16.80</nota_media>
+        <idiomas>
+          <idioma nivel="nativo">Persa</idioma>
+          <idioma nivel="B2">Ingles</idioma>
+          <idioma nivel="A2">Arabe</idioma>
+        </idiomas>
+      </estudiante>
+
+      <programa>
+        <nombre_programa>MSc Data Science</nombre_programa>
+        <nivel>Maestria</nivel>
+        <duracion_meses>12</duracion_meses>
+        <coste_anual moneda="EUR">22000.00</coste_anual>
+        <idioma_imparticion>Ingles</idioma_imparticion>
+        <fecha_inicio>2025-09-22</fecha_inicio>
+      </programa>
+
+      <universidad>
+        <nombre>University of Manchester</nombre>
+        <pais>Reino Unido</pais>
+        <ciudad>Manchester</ciudad>
+        <ranking>TOP 100</ranking>
+      </universidad>
+
+      <estado_solicitud>En_proceso</estado_solicitud>
+      <fecha_solicitud>2025-02-01</fecha_solicitud>
+
+      <tramite_visa>
+        <tipo>Student_visa_UK</tipo>
+        <consulado>Centro Visa UK Teheran</consulado>
+        <fecha_inicio>2025-03-10</fecha_inicio>
+        <fecha_fin_prevista>2025-05-01</fecha_fin_prevista>
+        <estado>Documentacion</estado>
+      </tramite_visa>
+
+      <asesor>
+        <nombre>Ahmed</nombre>
+        <apellido>Al-Rashid</apellido>
+        <email>ahmed.rashid@espanito.com</email>
+      </asesor>
+    </solicitud>
+
+  </solicitudes>
+
+</espanito>

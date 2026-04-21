@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  PROYECTO INTERMODULAR - ASIR 1º
+  Módulo: Lenguajes de Marcas y Sistemas de Gestión (0373)
+  Archivo: datos_incorrecto.xml
+  Descripción: Ejemplo de XML INVÁLIDO para demostrar que el
+               esquema XSD controla y rechaza datos incorrectos.
+  
+  ERRORES INTRODUCIDOS INTENCIONALMENTE:
+    Error 1 (línea ~30): nota_media = 25.00 → fuera de rango (max 20.00)
+    Error 2 (línea ~35): nivel idioma = "D1" → valor no permitido en ENUM
+    Error 3 (línea ~50): nivel programa = "Certificado" → no es un valor válido
+    Error 4 (línea ~70): pais = "Japon" → no está en la lista de países europeos
+    Error 5 (línea ~80): estado visa = "Tramitando" → no es un valor ENUM válido
+    Error 6 (línea ~90): id solicitud = "SL001" → no cumple patrón SOL-NNN
+  ============================================================
+-->
+<espanito
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="esquema.xsd">
+
+  <agencia>
+    <nombre>Espanito - Servicios Educativos y Migratorios</nombre>
+    <pais_sede>España</pais_sede>
+    <email_contacto>admisiones@espanito.com</email_contacto>
+    <fecha_exportacion>2025-04-20</fecha_exportacion>
+    <version_exportacion>1.0</version_exportacion>
+  </agencia>
+
+  <solicitudes total="1">
+
+    <!-- ERROR 6: id="SL001" no cumple el patrón SOL-[0-9]{3} -->
+    <solicitud id="SL001" prioridad="1">
+      <estudiante>
+        <nombre>Kamran</nombre>
+        <apellido>Tehrani</apellido>
+        <email>kamran.tehrani@email.com</email>
+        <nacionalidad>Irani</nacionalidad>
+        <pasaporte numero="IR100004" expira="2028-12-19"/>
+        <nivel_educativo>Bachillerato</nivel_educativo>
+
+        <!-- ERROR 1: nota_media=25.00 supera el máximo permitido (20.00) -->
+        <nota_media>25.00</nota_media>
+
+        <idiomas>
+          <idioma nivel="nativo">Persa</idioma>
+          <!-- ERROR 2: nivel="D1" no existe en el ENUM del MCER (A1-C2) -->
+          <idioma nivel="D1">Ingles</idioma>
+        </idiomas>
+      </estudiante>
+
+      <programa>
+        <nombre_programa>BSc Computer Science</nombre_programa>
+        <!-- ERROR 3: "Certificado" no es un nivel académico válido -->
+        <nivel>Certificado</nivel>
+        <duracion_meses>36</duracion_meses>
+        <coste_anual moneda="EUR">18000.00</coste_anual>
+        <idioma_imparticion>Ingles</idioma_imparticion>
+        <fecha_inicio>2025-09-22</fecha_inicio>
+      </programa>
+
+      <universidad>
+        <nombre>University of Tokyo</nombre>
+        <!-- ERROR 4: "Japon" no está en el ENUM de países europeos -->
+        <pais>Japon</pais>
+        <ciudad>Tokyo</ciudad>
+        <ranking>TOP 30</ranking>
+      </universidad>
+
+      <estado_solicitud>Pendiente</estado_solicitud>
+      <fecha_solicitud>2025-02-10</fecha_solicitud>
+
+      <tramite_visa>
+        <tipo>Student_visa_UK</tipo>
+        <consulado>Embajada Japonesa</consulado>
+        <fecha_inicio>2025-03-01</fecha_inicio>
+        <fecha_fin_prevista>2025-05-01</fecha_fin_prevista>
+        <!-- ERROR 5: "Tramitando" no es un valor válido del ENUM tipoEstadoVisa -->
+        <estado>Tramitando</estado>
+      </tramite_visa>
+
+      <asesor>
+        <nombre>Ahmed</nombre>
+        <apellido>Al-Rashid</apellido>
+        <email>ahmed.rashid@espanito.com</email>
+      </asesor>
+    </solicitud>
+
+  </solicitudes>
+
+</espanito>

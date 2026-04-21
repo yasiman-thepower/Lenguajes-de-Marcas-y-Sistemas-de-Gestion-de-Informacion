@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================
+  PROYECTO INTERMODULAR - ASIR 1º
+  Módulo: Lenguajes de Marcas y Sistemas de Gestión (0373)
+  Empresa: Agencia Espanito
+  Estudiante: Yassin Mansouri
+  Archivo: esquema.xsd
+  Descripción: Esquema XSD para validar el documento datos.xml.
+               Define estructura, tipos de datos, cardinalidades
+               y restricciones de todos los elementos.
+  ============================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- ============================================================
+       ELEMENTO RAÍZ: espanito
+       Contiene los bloques agencia y solicitudes.
+  ============================================================ -->
+  <xs:element name="espanito">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="agencia"     type="tipoAgencia"/>
+        <xs:element name="solicitudes" type="tipoSolicitudes"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <!-- ============================================================
+       TIPO: tipoAgencia
+       Bloque de información institucional de la agencia.
+  ============================================================ -->
+  <xs:complexType name="tipoAgencia">
+    <xs:sequence>
+      <xs:element name="nombre"              type="xs:string"/>
+      <xs:element name="pais_sede"           type="tipoNombrePais"/>
+      <xs:element name="email_contacto"      type="tipoEmail"/>
+      <xs:element name="fecha_exportacion"   type="xs:date"/>
+      <xs:element name="version_exportacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <!-- Formato: número.número (ej: 1.0, 2.1) -->
+            <xs:pattern value="\d+\.\d+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoSolicitudes
+       Contenedor de todas las solicitudes exportadas.
+       Atributo obligatorio: total (número de solicitudes).
+  ============================================================ -->
+  <xs:complexType name="tipoSolicitudes">
+    <xs:sequence>
+      <!-- Mínimo 1 solicitud, sin máximo definido -->
+      <xs:element name="solicitud" type="tipoSolicitud" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="total" type="xs:positiveInteger" use="required"/>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoSolicitud
+       Registro completo de una candidatura de admisión.
+       Atributos: id (formato SOL-NNN) y prioridad (1-3).
+  ============================================================ -->
+  <xs:complexType name="tipoSolicitud">
+    <xs:sequence>
+      <xs:element name="estudiante"        type="tipoEstudiante"/>
+      <xs:element name="programa"          type="tipoPrograma"/>
+      <xs:element name="universidad"       type="tipoUniversidad"/>
+      <xs:element name="estado_solicitud"  type="tipoEstadoSolicitud"/>
+      <xs:element name="fecha_solicitud"   type="xs:date"/>
+      <!-- fecha_respuesta puede estar vacía si aún no hay respuesta -->
+      <xs:element name="fecha_respuesta"   type="xs:date" minOccurs="0"/>
+      <!-- tramite_visa: obligatorio cuando existe solicitud -->
+      <xs:element name="tramite_visa"      type="tipoTramiteVisa"/>
+      <xs:element name="asesor"            type="tipoAsesor"/>
+    </xs:sequence>
+    <xs:attribute name="id"        type="tipoIdSolicitud" use="required"/>
+    <xs:attribute name="prioridad" type="tipoPrioridad"   use="required"/>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoEstudiante
+  ============================================================ -->
+  <xs:complexType name="tipoEstudiante">
+    <xs:sequence>
+      <xs:element name="nombre"           type="tipoNombrePersona"/>
+      <xs:element name="apellido"         type="tipoNombrePersona"/>
+      <xs:element name="email"            type="tipoEmail"/>
+      <xs:element name="nacionalidad"     type="xs:string"/>
+      <xs:element name="pasaporte"        type="tipoPasaporte"/>
+      <xs:element name="nivel_educativo"  type="tipoNivelEducativo"/>
+      <xs:element name="nota_media"       type="tipoNotaMedia"/>
+      <xs:element name="idiomas"          type="tipoIdiomas"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoPrograma
+  ============================================================ -->
+  <xs:complexType name="tipoPrograma">
+    <xs:sequence>
+      <xs:element name="nombre_programa">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="200"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nivel"               type="tipoNivelPrograma"/>
+      <xs:element name="duracion_meses"      type="tipoDuracion"/>
+      <xs:element name="coste_anual"         type="tipoCoste"/>
+      <xs:element name="idioma_imparticion"  type="xs:string"/>
+      <xs:element name="fecha_inicio"        type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoUniversidad
+  ============================================================ -->
+  <xs:complexType name="tipoUniversidad">
+    <xs:sequence>
+      <xs:element name="nombre"   type="xs:string"/>
+      <xs:element name="pais"     type="tipoNombrePais"/>
+      <xs:element name="ciudad"   type="xs:string"/>
+      <xs:element name="ranking">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <!-- Formato: TOP número (ej: TOP 50, TOP 100, TOP 300) -->
+            <xs:pattern value="TOP \d+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoTramiteVisa
+  ============================================================ -->
+  <xs:complexType name="tipoTramiteVisa">
+    <xs:sequence>
+      <xs:element name="tipo"              type="tipoVisaEnum"/>
+      <xs:element name="consulado"         type="xs:string"/>
+      <xs:element name="fecha_inicio"      type="xs:date"/>
+      <!-- fecha_cita es opcional: puede no haberse asignado aún -->
+      <xs:element name="fecha_cita"        type="xs:date" minOccurs="0"/>
+      <xs:element name="fecha_fin_prevista" type="xs:date"/>
+      <xs:element name="estado"            type="tipoEstadoVisa"/>
+      <!-- numero_expediente es opcional: se asigna tras apertura de expediente -->
+      <xs:element name="numero_expediente" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoAsesor
+  ============================================================ -->
+  <xs:complexType name="tipoAsesor">
+    <xs:sequence>
+      <xs:element name="nombre"   type="tipoNombrePersona"/>
+      <xs:element name="apellido" type="tipoNombrePersona"/>
+      <xs:element name="email"    type="tipoEmail"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoPasaporte
+       Elemento vacío con atributos: número y fecha de expiración.
+  ============================================================ -->
+  <xs:complexType name="tipoPasaporte">
+    <xs:attribute name="numero" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <!-- Formato: 2 letras mayúsculas + 6 dígitos (ej: IR100001) -->
+          <xs:pattern value="[A-Z]{2}[0-9]{6}"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="expira" type="xs:date" use="required"/>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoIdiomas
+       Contiene entre 1 y 5 elementos idioma.
+  ============================================================ -->
+  <xs:complexType name="tipoIdiomas">
+    <xs:sequence>
+      <xs:element name="idioma" type="tipoIdioma" minOccurs="1" maxOccurs="5"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoIdioma
+       Elemento con contenido de texto y atributo nivel (MCER).
+  ============================================================ -->
+  <xs:complexType name="tipoIdioma">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="nivel" type="tipoNivelIdioma" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPO: tipoCoste
+       Importe decimal con atributo moneda obligatorio.
+  ============================================================ -->
+  <xs:complexType name="tipoCoste">
+    <xs:simpleContent>
+      <xs:extension base="tipoImporte">
+        <xs:attribute name="moneda" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="EUR"/>
+              <xs:enumeration value="GBP"/>
+              <xs:enumeration value="USD"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <!-- ============================================================
+       TIPOS SIMPLES REUTILIZABLES
+  ============================================================ -->
+
+  <!-- Nombre de persona: solo letras, espacios y guiones, 2-80 chars -->
+  <xs:simpleType name="tipoNombrePersona">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="2"/>
+      <xs:maxLength value="80"/>
+      <xs:pattern value="[A-Za-záéíóúäöüÄÖÜàèìòùÀÈÌÒÙ\- ]+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Email: formato estándar usuario@dominio.extensión -->
+  <xs:simpleType name="tipoEmail">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ID de solicitud: formato SOL-NNN (3 dígitos) -->
+  <xs:simpleType name="tipoIdSolicitud">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="SOL-[0-9]{3}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Prioridad: número del 1 al 3 -->
+  <xs:simpleType name="tipoPrioridad">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Nota media: entre 0.00 y 20.00 -->
+  <xs:simpleType name="tipoNotaMedia">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0.00"/>
+      <xs:maxInclusive value="20.00"/>
+      <xs:fractionDigits value="2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Importe: valor positivo con hasta 2 decimales -->
+  <xs:simpleType name="tipoImporte">
+    <xs:restriction base="xs:decimal">
+      <xs:minExclusive value="0"/>
+      <xs:fractionDigits value="2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Duración en meses: entre 1 y 120 meses -->
+  <xs:simpleType name="tipoDuracion">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="120"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Países europeos cubiertos por la agencia -->
+  <xs:simpleType name="tipoNombrePais">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="España"/>
+      <xs:enumeration value="Alemania"/>
+      <xs:enumeration value="Francia"/>
+      <xs:enumeration value="Paises Bajos"/>
+      <xs:enumeration value="Reino Unido"/>
+      <xs:enumeration value="Italia"/>
+      <xs:enumeration value="Belgica"/>
+      <xs:enumeration value="Suecia"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Niveles académicos de los programas -->
+  <xs:simpleType name="tipoNivelPrograma">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Bachillerato"/>
+      <xs:enumeration value="Licenciatura"/>
+      <xs:enumeration value="Maestria"/>
+      <xs:enumeration value="Doctorado"/>
+      <xs:enumeration value="Intercambio"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Nivel educativo del estudiante -->
+  <xs:simpleType name="tipoNivelEducativo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Bachillerato"/>
+      <xs:enumeration value="Licenciatura"/>
+      <xs:enumeration value="Maestria"/>
+      <xs:enumeration value="Doctorado"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Nivel de idioma según Marco Común Europeo de Referencia -->
+  <xs:simpleType name="tipoNivelIdioma">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="nativo"/>
+      <xs:enumeration value="A1"/>
+      <xs:enumeration value="A2"/>
+      <xs:enumeration value="B1"/>
+      <xs:enumeration value="B2"/>
+      <xs:enumeration value="C1"/>
+      <xs:enumeration value="C2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Estados posibles de una solicitud de admisión -->
+  <xs:simpleType name="tipoEstadoSolicitud">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pendiente"/>
+      <xs:enumeration value="En_proceso"/>
+      <xs:enumeration value="Aceptada"/>
+      <xs:enumeration value="Rechazada"/>
+      <xs:enumeration value="Cancelada"/>
+      <xs:enumeration value="Lista_espera"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Tipos de visado gestionados por la agencia -->
+  <xs:simpleType name="tipoVisaEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Estudio_corta_duracion"/>
+      <xs:enumeration value="Estudio_larga_duracion"/>
+      <xs:enumeration value="Schengen"/>
+      <xs:enumeration value="Student_visa_UK"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Estados del proceso de tramitación del visado -->
+  <xs:simpleType name="tipoEstadoVisa">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="No_iniciado"/>
+      <xs:enumeration value="Documentacion"/>
+      <xs:enumeration value="Cita_pendiente"/>
+      <xs:enumeration value="En_revision"/>
+      <xs:enumeration value="Aprobada"/>
+      <xs:enumeration value="Denegada"/>
+      <xs:enumeration value="Cancelada"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
